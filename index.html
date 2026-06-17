@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر حسين الطريحي | للإلكترونيات</title>
+    <style>
+        /* الهوية البصرية الفاخرة والألوان */
+        :root {
+            --primary-dark: #0f172a; 
+            --accent-blue: #00d2ff;  
+            --accent-purple: #0066ff;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --star-color: #f59e0b;   
+            --admin-color: #10b981; 
+            --danger-color: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* شريط التنقل العلوي الثابت مع أنميشن متطور */
+        .top-bar {
+            background-color: #0b111e;
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: fixed; 
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: transform 0.4s ease-in-out; 
+        }
+
+        .top-bar.scroll-hide {
+            transform: translateY(-100%);
+        }
+
+        .top-bar.scroll-show {
+            transform: translateY(0);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            font-size: 0.95rem;
+            padding: 5px 10px;
+            border-radius: 8px;
+        }
+        .nav-links a:hover, .nav-links a.active-nav { 
+            color: white; 
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .auth-btn {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .auth-btn.logged-in { background: var(--danger-color); }
+        .auth-btn.admin-mode { background: var(--admin-color); }
+
+        /* التحكم بالصفحات ودفع المحتوى لأسفل شريط الـ fixed */
+        .page { display: none; padding-top: 70px; }
+        .page.active { display: block; }
+
+        /* تصميم الرأس الفخم */
+        header {
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-blue);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+        }
+        header p { color: #94a3b8; font-size: 1.2rem; margin-top: 10px; }
+
+        /* قسم الواجهة الترحيبية */
+        .hero {
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1468495244123-6c6c332eeece?auto=format&fit=crop&w=1920&q=80') center/cover;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .hero h2 { font-size: 2.5rem; color: var(--accent-blue); margin-bottom: 15px; }
+
+        .container { padding: 40px 5%; max-width: 1600px; margin: auto; }
+        .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 40px; color: var(--primary-dark); }
+        .section-title::after { content: ''; display: block; width: 70px; height: 4px; background: var(--accent-blue); margin: 10px auto 0; }
+
+        /* شبكة العرض المتجاوبة */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card.clickable:hover { transform: translateY(-6px); border-color: var(--accent-blue); }
+
+        /* تصميم كروت عرض البضائع */
+        .product-image { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; margin-bottom: 15px; background-color: #e2e8f0; }
+        .product-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 10px; color: var(--primary-dark); text-align: right; }
+        .product-specs { font-size: 0.95rem; color: #64748b; margin: 0; background: #f1f5f9; padding: 10px; border-radius: 8px; text-align: right; flex-grow: 1; }
+
+        /* شارة العروض الخاصة */
+        .offer-tag {
+            position: absolute; top: 15px; left: 15px; background: var(--danger-color); color: white;
+            padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; z-index: 10;
+        }
+
+        /* زر حذف المنشور السري للأدمن */
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: white; border: none; padding: 8px 12px; border-radius: 8px; margin-top: 15px;
+            cursor: pointer; font-weight: bold; font-family: inherit; width: 100%; transition: 0.2s;
+            display: none; 
+        }
+        .delete-btn:hover { background-color: #b91c1c; }
+
+        /* لوحة التحكم للأدمن المتنقلة بين الصفحات */
+        .admin-panel {
+            background: #ecfdf5; border: 2px dashed var(--admin-color); padding: 30px;
+            border-radius: 16px; max-width: 600px; margin: 0 auto 40px auto; display: none;
+        }
+        .admin-panel h3 { margin-top: 0; color: #065f46; text-align: center; }
+
+        /* التقييمات */
+        .reviews-section { background-color: #f1f5f9; padding: 50px 5%; margin-top: 40px; }
+        .review-card { background: white; padding: 20px; border-radius: 12px; border-right: 5px solid var(--accent-blue); text-align: right; position: relative; }
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .stars { color: var(--star-color); }
+        
+        /* زر حذف التقييمات السري للمدير */
+        .delete-review-btn {
+            position: absolute; top: 15px; left: 15px; background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color); border: 1px solid var(--danger-color); padding: 3px 8px;
+            border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-weight: bold; display: none;
+            transition: 0.2s;
+        }
+        .delete-review-btn:hover { background-color: var(--danger-color); color: white; }
+
+        .add-review-box { background: white; max-width: 600px; margin: 40px auto 0; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; }
+
+        /* النافذة المنبثقة للولوج */
+        .modal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(5px); align-items: center; justify-content: center;
+        }
+        .modal-content { background-color: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 400px; text-align: center; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-family: inherit; margin-bottom: 15px; }
+        .modal-buttons { display: flex; gap: 10px; }
+        .btn-modal { flex: 1; padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .btn-confirm { background: var(--accent-purple); color: white; }
+        .btn-cancel { background: #cbd5e1; }
+
+        /* تجميل نافذة الترحيب الذكية وعمل تأثيرات متجاوبة */
+        .welcome-modal-content {
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            border: 3px solid var(--accent-blue);
+            position: relative;
+            overflow: hidden;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 35px;
+        }
+        
+        /* أحجام ذكية عبر الـ CSS كدعم إضافي بجانب الجافاسكريبت */
+        .welcome-mobile { width: 85% !important; max-width: 340px !important; }
+        .welcome-desktop { width: 50% !important; max-width: 550px !important; }
+
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .welcome-icon { font-size: 4rem; margin-bottom: 15px; animation: bounce 2s infinite; }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .btn-submit { background: var(--primary-dark); color: white; border: none; padding: 12px 20px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .btn-admin-submit { background: var(--admin-color); color: white; }
+        .login-alert { background-color: #ffedd5; color: #9a3412; padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; border: 1px solid #fed7aa; }
+
+        /* رسالة التنبيه للأقسام الفارغة */
+        .empty-message {
+            grid-column: 1 / -1;
+            padding: 40px;
+            text-align: center;
+            background: #ffffff;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        footer { background-color: var(--primary-dark); color: white; text-align: center; padding: 50px 20px 20px; }
+        .contact-links { margin: 25px 0; display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; }
+        .btn { display: inline-block; padding: 14px 35px; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; transition: 0.3s; }
+        .whatsapp { background-color: #25D366; } .whatsapp:hover { background-color: #128C7E; }
+        .facebook { background-color: #1877F2; } .facebook:hover { background-color: #165eab; }
+        .copyright { margin-top: 40px; font-size: 0.9rem; opacity: 0.6; }
+    </style>
+</head>
+<body>
+
+    <!-- شريط الإدارة والتنقل العلوي الموحد الثابت والمتحرك -->
+    <div class="top-bar" id="mainTopBar">
+        <div class="nav-links">
+            <a href="#" id="nav-home" class="active-nav" onclick="showPage('home')">🏠 الرئيسية</a>
+            <a href="#" id="nav-phones" onclick="showPage('phones')">📱 هواتف ذكية</a>
+            <a href="#" id="nav-accessories" onclick="showPage('accessories')">🎧 إكسسوارات مميزة</a>
+            <a href="#" id="nav-charging" onclick="showPage('charging')">🔌 منظومات شحن</a>
+            <a href="#" id="nav-offers" onclick="showPage('offers')">🔥 العروض الخاصة</a>
+        </div>
+        <div id="auth-status">👤 زائر (لم تقم بتسجيل الدخول)</div>
+        <button class="auth-btn" id="loginBtn" onclick="handleAuthAction()">تسجيل الدخول</button>
+    </div>
+
+    <!-- نافذة تسجيل الدخول المنبثقة -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h3>تسجيل الدخول للمتجر</h3>
+            <p>يرجى إدخال اسمك الكريم للتقييم، أو اسم الإدارة السري:</p>
+            <input type="text" id="usernameInput" class="form-control" placeholder="اكتب اسمك الكامل أو الرمز السري..." required>
+            <div class="modal-buttons">
+                <button class="btn-modal btn-confirm" onclick="confirmLogin()">تأكيد الدخول</button>
+                <button class="btn-modal btn-cancel" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الترحيب الجميلة والذكية (المتجاوبة مع نوع الجهاز) -->
+    <div id="welcomeModal" class="modal">
+        <div id="welcomeBox" class="welcome-modal-content">
+            <div class="welcome-icon" id="welcomeIcon">✨</div>
+            <h2 id="welcomeTitle" style="margin: 10px 0; color: var(--primary-dark);">أهلاً بك</h2>
+            <p id="welcomeMessage" style="font-size: 1.1rem; color: #475569; margin-bottom: 25px;"></p>
+            <button class="btn-submit" onclick="closeWelcomeModal()" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); border: none; border-radius: 50px; padding: 12px 30px;">تصفح المتجر الآن 🚀</button>
+        </div>
+    </div>
+
+    <!-- لوحة التحكم الثابتة للأدمن -->
+    <div class="container" style="padding-bottom: 0; padding-top: 100px;">
+        <div id="admin-box" class="admin-panel">
+            <h3 id="admin-panel-title">⚙️ لوحة الإدارة: إضافة بضاعة جديدة</h3>
+            <form onsubmit="addNewItem(event)">
+                <div class="form-group">
+                    <label>اختر صورة المنتج:</label>
+                    <input type="file" id="item-img" class="form-control" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label>اسم المنتج الفني:</label>
+                    <input type="text" id="item-title" class="form-control" placeholder="مثال: سماعة Apple AirPods Pro 2" required>
+                </div>
+                <div class="form-group">
+                    <label>المواصفات، التفاصيل، أو نسبة الخصم:</label>
+                    <textarea id="item-specs" class="form-control" rows="3" placeholder="اكتب التفاصيل والمواصفات هنا..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit btn-admin-submit">✨ نشر المنتج في هذا القسم فوراً</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ==================== 1. الصفحة الرئيسية (HOME) ==================== -->
+    <div id="home-page" class="page active">
+        <header>
+            <h1>حسين الطريحي</h1>
+            <p>العالم الرقمي بين يديك - أحدث الأجهزة الذكية والأكسسوارات الأصلية</p>
+        </header>
+
+        <section class="hero">
+            <h2>أهلاً بك في متجرنا الإلكتروني</h2>
+            <p>تصفح أقسام المتجر الفاخرة بالأسفل أو من الشريط العلوي لمشاهدة أحدث المنتجات المتوفرة وعروضنا الحصرية.</p>
+        </section>
+
+        <div class="container">
+            <h3 class="section-title">أقسام المتجر الرئيسية</h3>
+            <div class="grid">
+                <div class="card clickable" onclick="showPage('phones')">
+                    <div style="font-size: 3.5rem; margin-bottom: 10px;">📱</div>
+                    <h3>هواتف ذكية</h3>
+                    <p>تصفح أحدث إصدارات الهواتف بضمان حقيقي وأسعار تنافسية.</p>
+                </div>
+                <div class="card clickable" onclick="showPage('accessories')">
+                    <div style="font-size: 3.5rem; margin-bottom: 10px;">🎧</div>
+                    <h3>إكسسوارات مميزة</h3>
+                    <p>سماعات بلوتوث، كفرات حماية أصلية، وساعات ذكية متميزة.</p>
+                </div>
+                <div class="card clickable" onclick="showPage('charging')">
+                    <div style="font-size: 3.5rem; margin-bottom: 10px;">🔌</div>
+                    <h3>منظومات شحن</h3>
+                    <p>شواحن جدارية سريعة، كابلات مقاومة للقطع، وبطاقات طاقة متكاملة.</p>
+                </div>
+                <div class="card clickable" onclick="showPage('offers')" style="border-color: var(--danger-color);">
+                    <div style="font-size: 3.5rem; margin-bottom: 10px;">🔥</div>
+                    <h3 style="color: var(--danger-color);">العروض الخاصة</h3>
+                    <p>خصومات حصرية وتخفيضات كبرى ومؤقتة لا تفوتها اليوم.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==================== 2. صفحة الهواتف الذكية ==================== -->
+    <div id="phones-page" class="page">
+        <header style="padding: 30px 20px;">
+            <h1>📱 قسم الهواتف الذكية</h1>
+            <p>بضاعة أصلية ومضمونة تلبي كافة تطلعاتك</p>
+        </header>
+        <div class="container">
+            <div class="grid" id="phones-container"></div>
+        </div>
+    </div>
+
+
+    <!-- ==================== 3. صفحة الإكسسوارات المميزة ==================== -->
+    <div id="accessories-page" class="page">
+        <header style="padding: 30px 20px;">
+            <h1>🎧 قسم الإكسسوارات المميزة</h1>
+            <p>أضف لمسة من الفخامة والتميز لأجهزتك الذكية</p>
+        </header>
+        <div class="container">
+            <div class="grid" id="accessories-container"></div>
+        </div>
+    </div>
+
+
+    <!-- ==================== 4. صفحة منظومات الشحن ==================== -->
+    <div id="charging-page" class="page">
+        <header style="padding: 30px 20px;">
+            <h1>🔌 قسم منظومات الشحن والطاقة</h1>
+            <p>طاقة مستمرة وأمان كامل لبطارية أجهزتك الثمينة</p>
+        </header>
+        <div class="container">
+            <div class="grid" id="charging-container"></div>
+        </div>
+    </div>
+
+
+    <!-- ==================== 5. صفحة العروض الخاصة ==================== -->
+    <div id="offers-page" class="page">
+        <header style="padding: 30px 20px; background: radial-gradient(circle at center, #450a0a 0%, #0f172a 100%); border-bottom: 3px solid var(--danger-color);">
+            <h1 style="text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);">🔥 أقوى العروض والتخفيضات</h1>
+            <p>فرصتك الذهبية للتسوق بأفضل الأسعار المتاحة في السوق</p>
+        </header>
+        <div class="container">
+            <div class="grid" id="offers-container"></div>
+        </div>
+    </div>
+
+
+    <!-- ==================== قسم التقييمات الموحد ==================== -->
+    <section class="reviews-section">
+        <h3 class="section-title">تقييمات المشترين الحقيقية</h3>
+        <div class="container" style="padding: 0 0 30px 0;"><div class="grid" id="reviews-container"></div></div>
+
+        <div class="add-review-box">
+            <h4>إضافة تقييمك الخاص بالمتجر</h4>
+            <div id="login-required-msg" class="login-alert">⚠️ عذراً! يجب عليك تسجيل الدخول أولاً لتتمكن من كتابة تقييم حقيقي باسمك.</div>
+            <form id="review-form" style="display: none;" onsubmit="submitReview(event)">
+                <div class="form-group"><label>الاسم الكريم:</label><input type="text" id="reviewer-name" class="form-control" readonly style="background-color: #e2e8f0; font-weight: bold;"></div>
+                <div class="form-group">
+                    <label>التقييم بالنجوم:</label>
+                    <select id="reviewer-rating" class="form-control">
+                        <option value="5">★★★★★ (ممتاز جداً)</option><option value="4">★★★★☆ (جيد جداً)</option><option value="3">★★★☆☆ (متوسط)</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>رأيك بالمتجر والأجهزة تعاملك مع حسين الطريحي:</label><textarea id="reviewer-text" class="form-control" rows="4" required placeholder="اكتب تجربتك هنا..."></textarea></div>
+                <button type="submit" class="btn-submit">نشر التقييم فوراً</button>
+            </form>
+        </div>
+    </section>
+
+
+    <!-- قسم التواصل الموحد والفوتر الثابت -->
+    <footer>
+        <h3>تواصل مباشرة مع صاحب المحل للطلب</h3>
+        <div class="contact-links">
+            <a href="https://wa.me/9647823973083" class="btn whatsapp" target="_blank">💬 راسلنا على واتساب</a>
+            <a href="https://www.facebook.com/share/1CqsUoxGic/?mibextid=wwXIfr" class="btn facebook" target="_blank">📘 تابعنا على فيسبوك</a>
+        </div>
+        <div class="copyright"><p>© 2026 متجر حسين الطريحي للأجهزة الإلكترونية. جميع الحقوق محفوظة.</p></div>
+    </footer>
+
+
+    <script>
+        let currentUserName = localStorage.getItem('storedUserName') || "";
+        let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true' && currentUserName !== "";
+        let currentPage = "home"; 
+        
+        const ENCRYPTED_ADMIN_KEY = "SHVzc2luX01hamVkQEAjIw=="; 
+
+        // تم تفريغ المصفوفات بالكامل لتضع بضاعتك وتقييماتك بنفسك 🛠️
+        const defaultData = {
+            phones: [],
+            accessories: [],
+            charging: [],
+            offers: []
+        };
+
+        const defaultReviews = [];
+
+        window.onload = function() {
+            updateAuthUI();
+            renderReviews();
+            renderAllSections();
+            initScrollAnimation(); 
+        };
+
+        function initScrollAnimation() {
+            let lastScrollTop = 0;
+            const topBar = document.getElementById('mainTopBar');
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > lastScrollTop && scrollTop > 150) {
+                    topBar.classList.add('scroll-hide');
+                } else {
+                    topBar.classList.remove('scroll-hide');
+                }
+                lastScrollTop = scrollTop;
+            });
+        }
+
+        function showPage(pageId) {
+            currentPage = pageId;
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`${pageId}-page`).classList.add('active');
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active-nav'));
+            document.getElementById(`nav-${pageId}`).classList.add('active-nav');
+            window.scrollTo(0, 0);
+            updateAdminPanelVisibility(); 
+        }
+
+        function handleAuthAction() {
+            if (isLoggedIn) {
+                isLoggedIn = false; currentUserName = "";
+                localStorage.setItem('isLoggedIn', false); localStorage.removeItem('storedUserName');
+                updateAuthUI();
+            } else {
+                document.getElementById('loginModal').style.display = "flex";
+                document.getElementById('usernameInput').focus();
+            }
+        }
+
+        function closeModal() { document.getElementById('loginModal').style.display = "none"; document.getElementById('usernameInput').value = ""; }
+
+        function confirmLogin() {
+            const nameInput = document.getElementById('usernameInput').value.trim();
+            if (nameInput === "") { alert("الرجاء إدخال اسمك!"); return; }
+
+            isLoggedIn = true;
+            let isMasterAdmin = false;
+            
+            if (btoa(nameInput) === ENCRYPTED_ADMIN_KEY) {
+                currentUserName = "ادمن_المتجر";
+                isMasterAdmin = true;
+            } else {
+                currentUserName = nameInput;
+            }
+            
+            localStorage.setItem('isLoggedIn', true); 
+            localStorage.setItem('storedUserName', currentUserName);
+
+            closeModal();
+            updateAuthUI();
+
+            triggerWelcomePopup(isMasterAdmin, currentUserName);
+        }
+
+        function triggerWelcomePopup(isAdminMode, userName) {
+            const welcomeModal = document.getElementById('welcomeModal');
+            const welcomeBox = document.getElementById('welcomeBox');
+            const welcomeIcon = document.getElementById('welcomeIcon');
+            const welcomeTitle = document.getElementById('welcomeTitle');
+            const welcomeMessage = document.getElementById('welcomeMessage');
+
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+
+            welcomeBox.classList.remove('welcome-mobile', 'welcome-desktop');
+
+            if (isMobile) {
+                welcomeBox.classList.add('welcome-mobile');
+            } else {
+                welcomeBox.classList.add('welcome-desktop');
+            }
+
+            if (isAdminMode) {
+                welcomeIcon.innerText = "👑";
+                welcomeTitle.innerText = "مرحباً يا مدير!";
+                welcomeMessage.innerText = "تم تفعيل صلاحيات الإدارة الكاملة بنجاح. يمكنك الآن إضافة البضائع وحذف التقييمات والمنشورات فوراً.";
+            } else {
+                welcomeIcon.innerText = "✨";
+                welcomeTitle.innerText = "أهلاً بك وسهلاً";
+                welcomeMessage.innerText = `يسعدنا جداً انضمامك وتصفحك لمتجرنا، يا غالي (${userName}). يمكنك الآن ترك تقييمك وتجربتك بكل سهولة!`;
+            }
+
+            welcomeModal.style.display = "flex";
+        }
+
+        function closeWelcomeModal() {
+            document.getElementById('welcomeModal').style.display = "none";
+        }
+
+        function isAdmin() { return isLoggedIn && currentUserName === "ادمن_المتجر"; }
+
+        function updateAuthUI() {
+            const authStatus = document.getElementById('auth-status');
+            const loginBtn = document.getElementById('loginBtn');
+            const reviewForm = document.getElementById('review-form');
+            const loginMsg = document.getElementById('login-required-msg');
+            const reviewerNameField = document.getElementById('reviewer-name');
+
+            if (isAdmin()) {
+                authStatus.innerHTML = `👑 <b>وضع المدير: Hussin_Majed</b>`;
+                loginBtn.innerHTML = "خروج الإدارة";
+                loginBtn.className = "auth-btn admin-mode";
+                if(reviewForm) reviewForm.style.display = "block"; 
+                if(loginMsg) loginMsg.style.display = "none";
+                if(reviewerNameField) reviewerNameField.value = "صاحب المتجر (إدارة)";
+            } 
+            else if (isLoggedIn) {
+                authStatus.innerHTML = `✅ مرحباً بك، <b>${currentUserName}</b>`;
+                loginBtn.innerHTML = "تسجيل الخروج";
+                loginBtn.className = "auth-btn logged-in";
+                if(reviewForm) reviewForm.style.display = "block"; 
+                if(loginMsg) loginMsg.style.display = "none";
+                if(reviewerNameField) reviewerNameField.value = currentUserName;
+            } 
+            else {
+                authStatus.innerHTML = "👤 زائر (لم تقم بتسجيل الدخول)";
+                loginBtn.innerHTML = "تسجيل الدخول";
+                loginBtn.className = "auth-btn";
+                if(reviewForm) reviewForm.style.display = "none"; 
+                if(loginMsg) loginMsg.style.display = "block";
+            }
+
+            updateAdminPanelVisibility();
+            toggleAdminFeatures(); 
+        }
+
+        function updateAdminPanelVisibility() {
+            const adminBox = document.getElementById('admin-box');
+            const panelTitle = document.getElementById('admin-panel-title');
+            if (isAdmin() && currentPage !== "home") {
+                adminBox.style.display = "block";
+                let arabicSectionName = "";
+                if(currentPage === 'phones') arabicSectionName = "الهواتف الذكية";
+                if(currentPage === 'accessories') arabicSectionName = "الإكسسوارات المميزة";
+                if(currentPage === 'charging') arabicSectionName = "منظومات الشحن";
+                if(currentPage === 'offers') arabicSectionName = "العروض الخاصة";
+                panelTitle.innerHTML = `⚙️ لوحة الإدارة: إضافة منشور إلى [ ${arabicSectionName} ]`;
+            } else {
+                if(adminBox) adminBox.style.display = "none";
+            }
+        }
+
+        function toggleAdminFeatures() {
+            const displayStyle = isAdmin() ? "block" : "none";
+            document.querySelectorAll('.delete-btn').forEach(btn => btn.style.display = displayStyle);
+            document.querySelectorAll('.delete-review-btn').forEach(btn => btn.style.display = displayStyle);
+        }
+
+        function renderAllSections() {
+            const sections = ['phones', 'accessories', 'charging', 'offers'];
+            sections.forEach(sec => {
+                const container = document.getElementById(`${sec}-container`);
+                if(!container) return;
+                container.innerHTML = "";
+
+                let customItems = JSON.parse(localStorage.getItem(`store_${sec}`)) || [];
+                let allItems = [...defaultData[sec], ...customItems];
+
+                if (allItems.length === 0) {
+                    container.innerHTML = `<div class="empty-message">📦 هذا القسم فارغ حالياً، وسيتم إضافة المنتجات قريباً بواسطة الإدارة.</div>`;
+                    return;
+                }
+
+                allItems.forEach(item => {
+                    let offerBadge = (sec === 'offers') ? `<span class="offer-tag">عرض مؤقت 🔥</span>` : "";
+                    container.innerHTML += `
+                        <div class="card" id="card-${item.id}">
+                            ${offerBadge}
+                            <img src="${item.img}" class="product-image" alt="صورة بضاعة">
+                            <div class="product-title">${item.title}</div>
+                            <p class="product-specs">${item.specs}</p>
+                            <button class="delete-btn" onclick="deleteItem('${sec}', '${item.id}')">حذف هذا المنشور ❌</button>
+                        </div>
+                    `;
+                });
+            });
+            toggleAdminFeatures();
+        }
+
+        function addNewItem(event) {
+            event.preventDefault();
+            const imgFile = document.getElementById('item-img').files[0];
+            const titleInput = document.getElementById('item-title').value;
+            const specsInput = document.getElementById('item-specs').value;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Image = e.target.result;
+                const newItem = {
+                    id: "custom_" + Date.now(), 
+                    img: base64Image,
+                    title: titleInput,
+                    specs: specsInput
+                };
+                let customItems = JSON.parse(localStorage.getItem(`store_${currentPage}`)) || [];
+                customItems.push(newItem);
+                localStorage.setItem(`store_${currentPage}`, JSON.stringify(customItems));
+
+                alert("تم رفع المنشور وإضافته بنجاح! جاري التحديث... 🎉");
+                location.reload(); 
+            };
+            if (imgFile) reader.readAsDataURL(imgFile);
+        }
+
+        function deleteItem(section, itemId) {
+            if (!confirm("هل أنت متأكد تماماً من رغبتك في حذف هذا المنشور من المتجر بشكل نهائي؟")) return;
+
+            let customItems = JSON.parse(localStorage.getItem(`store_${section}`)) || [];
+            customItems = customItems.filter(item => item.id !== itemId);
+            localStorage.setItem(`store_${section}`, JSON.stringify(customItems));
+
+            alert("تم الحذف بنجاح! جاري التحديث... 👍");
+            location.reload(); 
+        }
+
+        function renderReviews() {
+            const container = document.getElementById('reviews-container');
+            if(!container) return;
+            container.innerHTML = "";
+            let customReviews = JSON.parse(localStorage.getItem('userReviews')) || [];
+            let allReviews = [...defaultReviews, ...customReviews];
+
+            if (allReviews.length === 0) {
+                container.innerHTML = `<div class="empty-message">💬 لا توجد تقييمات بعد. كن أول من يشاركنا رأيه بالأسفل!</div>`;
+                return;
+            }
+
+            allReviews.forEach(rev => {
+                let starString = "★".repeat(rev.stars) + "☆".repeat(5 - rev.stars);
+                container.innerHTML += `
+                    <div class="review-card" id="review-${rev.id}">
+                        <button class="delete-review-btn" onclick="deleteReview('${rev.id}')">حذف التقييم 🗑️</button>
+                        <div class="review-header">
+                            <span class="review-user">${rev.name}</span>
+                            <span class="stars">${starString}</span>
+                        </div>
+                        <p>"${rev.text}"</p>
+                    </div>
+                `;
+            });
+            toggleAdminFeatures();
+        }
+
+        function submitReview(event) {
+            event.preventDefault();
+            const ratingInput = document.getElementById('reviewer-rating');
+            const textInput = document.getElementById('reviewer-text');
+
+            const newReview = { 
+                id: "rev_" + Date.now(),
+                name: currentUserName, 
+                stars: parseInt(ratingInput.value), 
+                text: textInput.value 
+            };
+            let customReviews = JSON.parse(localStorage.getItem('userReviews')) || [];
+            customReviews.push(newReview);
+            localStorage.setItem('userReviews', JSON.stringify(customReviews));
+
+            alert("تم نشر تقييمك بنجاح! سيتم تحديث الصفحة لعرضه...");
+            location.reload(); 
+        }
+
+        function deleteReview(reviewId) {
+            if (!confirm("هل أنت متأكد من رغبتك في حذف هذا التقييم نهائياً؟")) return;
+
+            let customReviews = JSON.parse(localStorage.getItem('userReviews')) || [];
+            customReviews = customReviews.filter(rev => rev.id !== reviewId);
+            localStorage.setItem('userReviews', JSON.stringify(customReviews));
+
+            alert("تمت إزالة التقييم بنجاح! جاري تحديث الصفحة... 🧼");
+            location.reload(); 
+        }
+    </script>
+</body>
+</html>
