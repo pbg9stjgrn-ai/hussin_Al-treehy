@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر حسين الطريحي | للإلكترونيات</title>
+    <title>متجر مركز ايفون | للإلكترونيات</title>
     <style>
         /* =========================================
            COLOR PALETTE & STYLING VARIABLES
-           You can change these hex codes to update the store theme colors.
            =========================================
         */
         :root {
-            --primary-dark: #0f172a;   /* Main background for header and footer */
-            --accent-blue: #00d2ff;    /* Glowing blue color for borders and highlights */
-            --accent-purple: #0066ff;  /* Elegant purple for primary login buttons */
-            --bg-light: #f8fafc;       /* Overall page background color */
-            --text-main: #1e293b;      /* Default text color */
-            --star-color: #f59e0b;     /* Golden yellow color for rating stars */
-            --admin-color: #10b981;    /* Green theme color for Admin panel */
-            --danger-color: #ef4444;   /* Red color for delete buttons and alerts */
+            --primary-dark: #0f172a;
+            --accent-blue: #00d2ff;
+            --accent-purple: #0066ff;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --star-color: #f59e0b;
+            --admin-color: #10b981;
+            --danger-color: #ef4444;
         }
 
         body {
@@ -30,7 +29,6 @@
             line-height: 1.6;
         }
 
-        /* Fixed Navigation Top Bar */
         .top-bar {
             background-color: #0b111e;
             padding: 12px 5%;
@@ -47,44 +45,20 @@
             transition: transform 0.4s ease-in-out; 
         }
 
-        .top-bar.scroll-hide {
-            transform: translateY(-100%);
-        }
+        .top-bar.scroll-hide { transform: translateY(-100%); }
+        .top-bar.scroll-show { transform: translateY(0); }
 
-        .top-bar.scroll-show {
-            transform: translateY(0);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
+        .nav-links { display: flex; gap: 15px; flex-wrap: wrap; }
         .nav-links a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-            font-size: 0.95rem;
-            padding: 5px 10px;
-            border-radius: 8px;
+            color: #cbd5e1; text-decoration: none; font-weight: bold;
+            transition: 0.3s; font-size: 0.95rem; padding: 5px 10px; border-radius: 8px;
         }
-        .nav-links a:hover, .nav-links a.active-nav { 
-            color: white; 
-            background-color: rgba(255,255,255,0.1);
-        }
+        .nav-links a:hover, .nav-links a.active-nav { color: white; background-color: rgba(255,255,255,0.1); }
 
         .auth-btn {
             background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: inherit;
-            transition: 0.3s;
+            color: white; border: none; padding: 8px 18px; border-radius: 20px;
+            cursor: pointer; font-weight: bold; font-family: inherit; transition: 0.3s;
         }
         .auth-btn.logged-in { background: var(--danger-color); }
         .auth-btn.admin-mode { background: var(--admin-color); }
@@ -92,29 +66,16 @@
         .page { display: none; padding-top: 70px; }
         .page.active { display: block; }
 
-        /* Main Header Design */
         header {
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-            color: white;
-            padding: 50px 20px;
-            text-align: center;
-            border-bottom: 3px solid var(--accent-blue);
+            color: white; padding: 50px 20px; text-align: center; border-bottom: 3px solid var(--accent-blue);
         }
-        header h1 {
-            margin: 0;
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: #ffffff;
-            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
-        }
+        header h1 { margin: 0; font-size: 3.5rem; font-weight: 900; color: #ffffff; text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
         header p { color: #94a3b8; font-size: 1.2rem; margin-top: 10px; }
 
-        /* Hero Welcome Section */
         .hero {
             background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1468495244123-6c6c332eeece?auto=format&fit=crop&w=1920&q=80') center/cover;
-            color: white;
-            text-align: center;
-            padding: 60px 20px;
+            color: white; text-align: center; padding: 60px 20px;
         }
         .hero h2 { font-size: 2.5rem; color: var(--accent-blue); margin-bottom: 15px; }
 
@@ -122,25 +83,16 @@
         .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 40px; color: var(--primary-dark); }
         .section-title::after { content: ''; display: block; width: 70px; height: 4px; background: var(--accent-blue); margin: 10px auto 0; }
 
-        /* Grid System for Products */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         
         .card {
-            background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
-            text-align: center;
-            border: 1px solid #e2e8f0;
-            transition: 0.3s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: white; padding: 25px; border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); text-align: center;
+            border: 1px solid #e2e8f0; transition: 0.3s ease; position: relative;
+            display: flex; flex-direction: column; justify-content: space-between;
         }
         .card.clickable:hover { transform: translateY(-6px); border-color: var(--accent-blue); }
 
-        /* Product Card Elements */
         .product-image { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; margin-bottom: 15px; background-color: #e2e8f0; }
         .product-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 10px; color: var(--primary-dark); text-align: right; }
         .product-specs { font-size: 0.95rem; color: #64748b; margin: 0; background: #f1f5f9; padding: 10px; border-radius: 8px; text-align: right; flex-grow: 1; }
@@ -150,23 +102,19 @@
             padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; z-index: 10;
         }
 
-        /* Action Buttons */
         .delete-btn {
-            background-color: var(--danger-color);
-            color: white; border: none; padding: 8px 12px; border-radius: 8px; margin-top: 15px;
-            cursor: pointer; font-weight: bold; font-family: inherit; width: 100%; transition: 0.2s;
-            display: none; 
+            background-color: var(--danger-color); color: white; border: none; padding: 8px 12px;
+            border-radius: 8px; margin-top: 15px; cursor: pointer; font-weight: bold; font-family: inherit;
+            width: 100%; transition: 0.2s; display: none; 
         }
         .delete-btn:hover { background-color: #b91c1c; }
 
-        /* Admin Management Panel styling */
         .admin-panel {
             background: #ecfdf5; border: 2px dashed var(--admin-color); padding: 30px;
             border-radius: 16px; max-width: 600px; margin: 0 auto 40px auto; display: none;
         }
         .admin-panel h3 { margin-top: 0; color: #065f46; text-align: center; }
 
-        /* Reviews System Section */
         .reviews-section { background-color: #f1f5f9; padding: 50px 5%; margin-top: 40px; }
         .review-card { background: white; padding: 20px; border-radius: 12px; border-right: 5px solid var(--accent-blue); text-align: right; position: relative; }
         .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -175,14 +123,12 @@
         .delete-review-btn {
             position: absolute; top: 15px; left: 15px; background-color: rgba(239, 68, 68, 0.1);
             color: var(--danger-color); border: 1px solid var(--danger-color); padding: 3px 8px;
-            border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-weight: bold; display: none;
-            transition: 0.2s;
+            border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-weight: bold; display: none; transition: 0.2s;
         }
         .delete-review-btn:hover { background-color: var(--danger-color); color: white; }
 
         .add-review-box { background: white; max-width: 600px; margin: 40px auto 0; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; }
 
-        /* Modals and Popups Container */
         .modal {
             display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
             background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(5px); align-items: center; justify-content: center;
@@ -194,51 +140,27 @@
         .btn-confirm { background: var(--accent-purple); color: white; }
         .btn-cancel { background: #cbd5e1; }
 
-        /* =========================================
-           WELCOME POPUP ANIMATION & RESPONSIVENESS
-           =========================================
-        */
         .welcome-modal-content {
-            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            text-align: center;
-            border: 3px solid var(--accent-blue);
-            position: relative;
-            overflow: hidden;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 35px;
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%); border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; border: 3px solid var(--accent-blue);
+            position: relative; overflow: hidden; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 35px;
         }
         
-        /* Mobile and Android dynamic size (Compact look) */
         .welcome-mobile { width: 85% !important; max-width: 340px !important; }
-        /* Laptop and PC Desktop dynamic size (Luxurious large look) */
         .welcome-desktop { width: 50% !important; max-width: 550px !important; }
 
-        @keyframes popIn {
-            0% { transform: scale(0.7); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        @keyframes popIn { 0% { transform: scale(0.7); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
         .welcome-icon { font-size: 4rem; margin-bottom: 15px; animation: bounce 2s infinite; }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         .btn-submit { background: var(--primary-dark); color: white; border: none; padding: 12px 20px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; }
         .btn-admin-submit { background: var(--admin-color); color: white; }
         .login-alert { background-color: #ffedd5; color: #9a3412; padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; border: 1px solid #fed7aa; }
 
         .empty-message {
-            grid-column: 1 / -1;
-            padding: 40px;
-            text-align: center;
-            background: #ffffff;
-            border: 2px dashed #cbd5e1;
-            border-radius: 12px;
-            color: #64748b;
-            font-size: 1.1rem;
+            grid-column: 1 / -1; padding: 40px; text-align: center; background: #ffffff;
+            border: 2px dashed #cbd5e1; border-radius: 12px; color: #64748b; font-size: 1.1rem;
         }
 
         footer { background-color: var(--primary-dark); color: white; text-align: center; padding: 50px 20px 20px; }
@@ -305,7 +227,6 @@
         </div>
     </div>
 
-
     <div id="home-page" class="page active">
         <header>
             <h1>حسين الطريحي</h1>
@@ -345,37 +266,26 @@
     </div>
 
     <div id="phones-page" class="page">
-        <header style="padding: 30px 20px;">
-            <h1>📱 قسم الهواتف الذكية</h1>
-            <p>بضاعة أصلية ومضمونة تلبي كافة تطلعاتك</p>
-        </header>
+        <header style="padding: 30px 20px;"><h1>📱 قسم الهواتف الذكية</h1><p>بضاعة أصلية ومضمونة تلبي كافة تطلعاتك</p></header>
         <div class="container"><div class="grid" id="phones-container"></div></div>
     </div>
 
     <div id="accessories-page" class="page">
-        <header style="padding: 30px 20px;">
-            <h1>🎧 قسم الإكسسوارات المميزة</h1>
-            <p>أضف لمسة من الفخامة والتميز لأجهزتك الذكية</p>
-        </header>
+        <header style="padding: 30px 20px;"><h1>🎧 قسم الإكسسوارات المميزة</h1><p>أضف لمسة من الفخامة والتميز لأجهزتك الذكية</p></header>
         <div class="container"><div class="grid" id="accessories-container"></div></div>
     </div>
 
     <div id="charging-page" class="page">
-        <header style="padding: 30px 20px;">
-            <h1>🔌 قسم منظومات الشحن والطاقة</h1>
-            <p>طاقة مستمرة وأمان كامل لبطارية أجهزتك الثمينة</p>
-        </header>
+        <header style="padding: 30px 20px;"><h1>🔌 قسم منظومات الشحن والطاقة</h1><p>طاقة مستمرة وأمان كامل لبطارية أجهزتك الثمينة</p></header>
         <div class="container"><div class="grid" id="charging-container"></div></div>
     </div>
 
     <div id="offers-page" class="page">
         <header style="padding: 30px 20px; background: radial-gradient(circle at center, #450a0a 0%, #0f172a 100%); border-bottom: 3px solid var(--danger-color);">
-            <h1 style="text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);">🔥 أقوى العروض والتخفيضات</h1>
-            <p>فرصتك الذهبية للتسوق بأفضل الأسعار المتاحة في السوق</p>
+            <h1 style="text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);">🔥 أقوى العروض والتخفيضات</h1><p>فرصتك الذهبية للتسوق بأفضل الأسعار المتاحة في السوق</p>
         </header>
         <div class="container"><div class="grid" id="offers-container"></div></div>
     </div>
-
 
     <section class="reviews-section">
         <h3 class="section-title">تقييمات المشترين الحقيقية</h3>
@@ -407,32 +317,52 @@
         <div class="copyright"><p>© 2026 متجر حسين الطريحي للأجهزة الإلكترونية. جميع الحقوق محفوظة.</p></div>
     </footer>
 
+    <script type="module">
+        // Import Firebase SDKs from CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+        import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-    <script>
-        /* =========================================
-           GLOBAL CORE VARIABLES (STATE LOGIC)
-           =========================================
-        */
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHeuyv8-eS__y6ic68azaQw9eYngV90cU",
+            authDomain: "oooo-677f3.firebaseapp.com",
+            databaseURL: "https://oooo-677f3-default-rtdb.firebaseio.com",
+            projectId: "oooo-677f3",
+            storageBucket: "oooo-677f3.firebasestorage.app",
+            messagingSenderId: "786943787674",
+            appId: "1:786943787674:web:80adff813ce08c948fd523",
+            measurementId: "G-4JVLKQR2R1"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase(app);
+
+        // Global State Logic
         let currentUserName = localStorage.getItem('storedUserName') || "";
         let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true' && currentUserName !== "";
         let currentPage = "home"; 
-        
-        // This key safely handles internal verification
-        const ENCRYPTED_ADMIN_KEY = "SHVzc2luX01hamVkQEAjIw=="; 
 
-        // Strictly clean arrays as requested (No pre-loaded products)
-        const defaultData = { phones: [], accessories: [], charging: [], offers: [] };
-        const defaultReviews = [];
+        // Make functions global to be accessed by HTML onclick attributes
+        window.showPage = showPage;
+        window.handleAuthAction = handleAuthAction;
+        window.closeModal = closeModal;
+        window.confirmLogin = confirmLogin;
+        window.closeWelcomeModal = closeWelcomeModal;
+        window.addNewItem = addNewItem;
+        window.deleteItem = deleteItem;
+        window.submitReview = submitReview;
+        window.deleteReview = deleteReview;
 
-        // Application initialization routine
         window.onload = function() {
             updateAuthUI();
-            renderReviews();
-            renderAllSections();
             initScrollAnimation(); 
+            listenToProducts(); // Fetch data from Firebase
+            listenToReviews();  // Fetch reviews from Firebase
         };
 
-        // Header animation logic to hide navbar dynamically during downward scrolling
         function initScrollAnimation() {
             let lastScrollTop = 0;
             const topBar = document.getElementById('mainTopBar');
@@ -447,7 +377,6 @@
             });
         }
 
-        // Tab and multi-page routing switcher
         function showPage(pageId) {
             currentPage = pageId;
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -458,7 +387,6 @@
             updateAdminPanelVisibility(); 
         }
 
-        // Logic routing for the main authentication button click
         function handleAuthAction() {
             if (isLoggedIn) {
                 isLoggedIn = false; currentUserName = "";
@@ -472,10 +400,6 @@
 
         function closeModal() { document.getElementById('loginModal').style.display = "none"; document.getElementById('usernameInput').value = ""; }
 
-        /* =========================================
-           AUTHENTICATION AND ROLE VERIFICATION
-           =========================================
-        */
         function confirmLogin() {
             const nameInput = document.getElementById('usernameInput').value.trim();
             if (nameInput === "") { alert("الرجاء إدخال اسمك أولاً!"); return; }
@@ -483,12 +407,11 @@
             isLoggedIn = true;
             let isMasterAdmin = false;
             
-            // Check if the input exactly matches the raw admin password "Hussin_Majed@@##"
             if (nameInput === "Hussin_Majed@@##") {
                 currentUserName = "ادمن_المتجر";
                 isMasterAdmin = true;
             } else {
-                currentUserName = nameInput; // Users can log in with absolutely any name they want
+                currentUserName = nameInput; 
             }
             
             localStorage.setItem('isLoggedIn', true); 
@@ -496,12 +419,9 @@
 
             closeModal();
             updateAuthUI();
-
-            // Fire responsive welcome popups based on mobile/PC hardware layout detection
             triggerWelcomePopup(isMasterAdmin, currentUserName);
         }
 
-        // Hardware responsive greeting box switcher
         function triggerWelcomePopup(isAdminMode, userName) {
             const welcomeModal = document.getElementById('welcomeModal');
             const welcomeBox = document.getElementById('welcomeBox');
@@ -509,17 +429,14 @@
             const welcomeTitle = document.getElementById('welcomeTitle');
             const welcomeMessage = document.getElementById('welcomeMessage');
 
-            // Programmatic detection of Mobile & Android platforms
             const userAgent = navigator.userAgent.toLowerCase();
             const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
 
             welcomeBox.classList.remove('welcome-mobile', 'welcome-desktop');
-
-            // Apply size modification constraints based on hardware interface factor
             if (isMobile) {
-                welcomeBox.classList.add('welcome-mobile'); // Smaller and handy size for Android/Mobile screens
+                welcomeBox.classList.add('welcome-mobile');
             } else {
-                welcomeBox.classList.add('welcome-desktop'); // Grand look for wide screens
+                welcomeBox.classList.add('welcome-desktop');
             }
 
             if (isAdminMode) {
@@ -531,15 +448,12 @@
                 welcomeTitle.innerText = "أهلاً بك وسهلاً";
                 welcomeMessage.innerText = `يسعدنا جداً انضمامك وتصفحك لمتجرنا، يا غالي (${userName}). يمكنك الآن ترك تقييمك وتجربتك بكل سهولة!`;
             }
-
             welcomeModal.style.display = "flex";
         }
 
         function closeWelcomeModal() { document.getElementById('welcomeModal').style.display = "none"; }
-
         function isAdmin() { return isLoggedIn && currentUserName === "ادمن_المتجر"; }
 
-        // Dynamic visual update routine for UI panels depending on authorization level
         function updateAuthUI() {
             const authStatus = document.getElementById('auth-status');
             const loginBtn = document.getElementById('loginBtn');
@@ -554,16 +468,14 @@
                 if(reviewForm) reviewForm.style.display = "block"; 
                 if(loginMsg) loginMsg.style.display = "none";
                 if(reviewerNameField) reviewerNameField.value = "صاحب المتجر (إدارة)";
-            } 
-            else if (isLoggedIn) {
+            } else if (isLoggedIn) {
                 authStatus.innerHTML = `✅ مرحباً بك، <b>${currentUserName}</b>`;
                 loginBtn.innerHTML = "تسجيل الخروج";
                 loginBtn.className = "auth-btn logged-in";
                 if(reviewForm) reviewForm.style.display = "block"; 
                 if(loginMsg) loginMsg.style.display = "none";
                 if(reviewerNameField) reviewerNameField.value = currentUserName;
-            } 
-            else {
+            } else {
                 authStatus.innerHTML = "👤 زائر (لم تقم بتسجيل الدخول)";
                 loginBtn.innerHTML = "تسجيل الدخول";
                 loginBtn.className = "auth-btn";
@@ -597,42 +509,50 @@
             document.querySelectorAll('.delete-review-btn').forEach(btn => btn.style.display = displayStyle);
         }
 
-        /* =========================================
-           PRODUCT GENERATION AND MANAGEMENT LOGIC
-           =========================================
-        */
-        function renderAllSections() {
+        // --- Firebase Database Logic ---
+
+        function listenToProducts() {
             const sections = ['phones', 'accessories', 'charging', 'offers'];
             sections.forEach(sec => {
-                const container = document.getElementById(`${sec}-container`);
-                if(!container) return;
-                container.innerHTML = "";
-
-                let customItems = JSON.parse(localStorage.getItem(`store_${sec}`)) || [];
-                let allItems = [...defaultData[sec], ...customItems];
-
-                if (allItems.length === 0) {
-                    container.innerHTML = `<div class="empty-message">📦 هذا القسم فارغ حالياً، وسيتم إضافة المنتجات قريباً بواسطة الإدارة.</div>`;
-                    return;
-                }
-
-                allItems.forEach(item => {
-                    let offerBadge = (sec === 'offers') ? `<span class="offer-tag">عرض مؤقت 🔥</span>` : "";
-                    container.innerHTML += `
-                        <div class="card" id="card-${item.id}">
-                            ${offerBadge}
-                            <img src="${item.img}" class="product-image" alt="صورة بضاعة">
-                            <div class="product-title">${item.title}</div>
-                            <p class="product-specs">${item.specs}</p>
-                            <button class="delete-btn" onclick="deleteItem('${sec}', '${item.id}')">حذف هذا المنشور ❌</button>
-                        </div>
-                    `;
+                // Listen to Realtime updates
+                onValue(ref(db, 'store_' + sec), (snapshot) => {
+                    renderSection(sec, snapshot.val());
                 });
+            });
+        }
+
+        function renderSection(sec, dataObj) {
+            const container = document.getElementById(`${sec}-container`);
+            if(!container) return;
+            container.innerHTML = "";
+
+            let allItems = [];
+            if (dataObj) {
+                for (let key in dataObj) {
+                    allItems.push({ id: key, ...dataObj[key] });
+                }
+            }
+
+            if (allItems.length === 0) {
+                container.innerHTML = `<div class="empty-message">📦 هذا القسم فارغ حالياً، وسيتم إضافة المنتجات قريباً بواسطة الإدارة.</div>`;
+                return;
+            }
+
+            allItems.forEach(item => {
+                let offerBadge = (sec === 'offers') ? `<span class="offer-tag">عرض مؤقت 🔥</span>` : "";
+                container.innerHTML += `
+                    <div class="card" id="card-${item.id}">
+                        ${offerBadge}
+                        <img src="${item.img}" class="product-image" alt="صورة بضاعة">
+                        <div class="product-title">${item.title}</div>
+                        <p class="product-specs">${item.specs}</p>
+                        <button class="delete-btn" onclick="deleteItem('${sec}', '${item.id}')">حذف هذا المنشور ❌</button>
+                    </div>
+                `;
             });
             toggleAdminFeatures();
         }
 
-        // Upload handler for processing new items with file extension checks
         function addNewItem(event) {
             event.preventDefault();
             const imgInput = document.getElementById('item-img');
@@ -642,14 +562,12 @@
 
             if (!imgFile) { alert("يرجى اختيار صورة للمنتج أولاً!"); return; }
 
-            // Dynamic filename evaluation logic
             const fileName = imgFile.name.toLowerCase();
-            // Validation filter matching your requested extensions array (.jpg, .jpeg, .png, .webp, .gif)
             const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.webp|\.gif)$/i;
 
             if (!allowedExtensions.exec(fileName)) {
                 alert("امتداد الصورة غير مدعوم! يرجى رفع صورة بصيغة صالحة فقط (.jpg, .jpeg, .png, .webp, .gif)");
-                imgInput.value = ''; // Clean input
+                imgInput.value = ''; 
                 return;
             }
 
@@ -657,62 +575,69 @@
             reader.onload = function(e) {
                 const base64Image = e.target.result;
                 const newItem = {
-                    id: "custom_" + Date.now(), 
                     img: base64Image,
                     title: titleInput,
                     specs: specsInput
                 };
-                let customItems = JSON.parse(localStorage.getItem(`store_${currentPage}`)) || [];
-                customItems.push(newItem);
-                localStorage.setItem(`store_${currentPage}`, JSON.stringify(customItems));
 
-                alert("تم رفع المنشور وإضافته بنجاح! جاري التحديث... 🎉");
-                location.reload(); 
+                // Push to Firebase Realtime Database
+                push(ref(db, 'store_' + currentPage), newItem)
+                    .then(() => {
+                        alert("تم رفع المنشور وإضافته بنجاح! 🎉");
+                        imgInput.value = '';
+                        document.getElementById('item-title').value = '';
+                        document.getElementById('item-specs').value = '';
+                    })
+                    .catch((error) => {
+                        alert("حدث خطأ أثناء الرفع: " + error.message);
+                    });
             };
             reader.readAsDataURL(imgFile);
         }
 
         function deleteItem(section, itemId) {
             if (!confirm("هل أنت متأكد تماماً من رغبتك في حذف هذا المنشور من المتجر بشكل نهائي؟")) return;
-
-            let customItems = JSON.parse(localStorage.getItem(`store_${section}`)) || [];
-            customItems = customItems.filter(item => item.id !== itemId);
-            localStorage.setItem(`store_${section}`, JSON.stringify(customItems));
-
-            alert("تم الحذف بنجاح! جاري التحديث... 👍");
-            location.reload(); 
+            remove(ref(db, 'store_' + section + '/' + itemId))
+                .then(() => { alert("تم الحذف بنجاح! 👍"); })
+                .catch((error) => { alert("حدث خطأ أثناء الحذف: " + error.message); });
         }
 
-        /* =========================================
-           REVIEWS SYSTEM ENGINE
-           =========================================
-        */
-        function renderReviews() {
-            const container = document.getElementById('reviews-container');
-            if(!container) return;
-            container.innerHTML = "";
-            let customReviews = JSON.parse(localStorage.getItem('userReviews')) || [];
-            let allReviews = [...defaultReviews, ...customReviews];
+        // --- Reviews Logic ---
 
-            if (allReviews.length === 0) {
-                container.innerHTML = `<div class="empty-message">💬 لا توجد تقييمات بعد. كن أول من يشاركنا رأيه بالأسفل!</div>`;
-                return;
-            }
+        function listenToReviews() {
+            onValue(ref(db, 'userReviews'), (snapshot) => {
+                const dataObj = snapshot.val();
+                const container = document.getElementById('reviews-container');
+                if(!container) return;
+                container.innerHTML = "";
+                
+                let allReviews = [];
+                if (dataObj) {
+                    for (let key in dataObj) {
+                        allReviews.push({ id: key, ...dataObj[key] });
+                    }
+                }
 
-            allReviews.forEach(rev => {
-                let starString = "★".repeat(rev.stars) + "☆".repeat(5 - rev.stars);
-                container.innerHTML += `
-                    <div class="review-card" id="review-${rev.id}">
-                        <button class="delete-review-btn" onclick="deleteReview('${rev.id}')">حذف التقييم 🗑️</button>
-                        <div class="review-header">
-                            <span class="review-user">${rev.name}</span>
-                            <span class="stars">${starString}</span>
+                if (allReviews.length === 0) {
+                    container.innerHTML = `<div class="empty-message">💬 لا توجد تقييمات بعد. كن أول من يشاركنا رأيه بالأسفل!</div>`;
+                    return;
+                }
+
+                allReviews.forEach(rev => {
+                    let starString = "★".repeat(rev.stars) + "☆".repeat(5 - rev.stars);
+                    container.innerHTML += `
+                        <div class="review-card" id="review-${rev.id}">
+                            <button class="delete-review-btn" onclick="deleteReview('${rev.id}')">حذف التقييم 🗑️</button>
+                            <div class="review-header">
+                                <span class="review-user">${rev.name}</span>
+                                <span class="stars">${starString}</span>
+                            </div>
+                            <p>"${rev.text}"</p>
                         </div>
-                        <p>"${rev.text}"</p>
-                    </div>
-                `;
+                    `;
+                });
+                toggleAdminFeatures();
             });
-            toggleAdminFeatures();
         }
 
         function submitReview(event) {
@@ -721,28 +646,26 @@
             const textInput = document.getElementById('reviewer-text');
 
             const newReview = { 
-                id: "rev_" + Date.now(),
                 name: currentUserName, 
                 stars: parseInt(ratingInput.value), 
                 text: textInput.value 
             };
-            let customReviews = JSON.parse(localStorage.getItem('userReviews')) || [];
-            customReviews.push(newReview);
-            localStorage.setItem('userReviews', JSON.stringify(customReviews));
-
-            alert("تم نشر تقييمك بنجاح! سيتم تحديث الصفحة لعرضه...");
-            location.reload(); 
+            
+            push(ref(db, 'userReviews'), newReview)
+                .then(() => {
+                    alert("تم نشر تقييمك بنجاح!");
+                    textInput.value = ''; // مسح النص بعد الإرسال
+                })
+                .catch((error) => {
+                    alert("حدث خطأ: " + error.message);
+                });
         }
 
         function deleteReview(reviewId) {
             if (!confirm("هل أنت متأكد من رغبتك في حذف هذا التقييم نهائياً؟")) return;
-
-            let customReviews = JSON.parse(localStorage.getItem('userReviews')) || [];
-            customReviews = customReviews.filter(rev => rev.id !== reviewId);
-            localStorage.setItem('userReviews', JSON.stringify(customReviews));
-
-            alert("تمت إزالة التقييم بنجاح! جاري تحديث الصفحة... 🧼");
-            location.reload(); 
+            remove(ref(db, 'userReviews/' + reviewId))
+                .then(() => { alert("تمت إزالة التقييم بنجاح! 🧼"); })
+                .catch((error) => { alert("حدث خطأ: " + error.message); });
         }
     </script>
 </body>
